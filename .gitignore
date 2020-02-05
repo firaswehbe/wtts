@@ -3,3 +3,12 @@
 .RData
 .Ruserdata
 *.Rproj
+
+input/*.csv
+input/*.json
+input/*.xml
+
+output/*.csv
+output/*.png
+output/*.html
+output/*.pdf
