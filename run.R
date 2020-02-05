@@ -10,26 +10,30 @@ source('read_weights.R')
 source('make_ts.R')
 
 # You can modify this
-mystartdate = as.POSIXct(Sys.Date() - 90)
-mystartdate = as.POSIXct('2012-10-01')
+mystartdate = as.POSIXct(Sys.Date() - 365)
+mystartdate = as.POSIXct('2018-10-01')
 
 # Calculate then cut the window
-mywts.EMA26<-window( EMA(mywts.xts, n = 90), start = mystartdate)
-names(mywts.EMA26) = 'EMA26'
-mywts.EMA12<-window( EMA(mywts.xts, n = 21), start = mystartdate)
-names(mywts.EMA12) = 'EMA12'
-mymacd <- window( MACD(mywts.xts, nFast = 21, nSlow = 90, nSig = 14), start = mystartdate)
-mymacd$hist <- mymacd$macd - mymacd$signal
+mywts.xts <- merge(mywts.xts, EMA(mywts.xts$Weight, n = 90))
+mywts.xts <- merge(mywts.xts, EMA(mywts.xts$Weight, n = 21))
+mymacd <- MACD(mywts.xts$Weight, nFast = 21, nSlow = 90, nSig = 14, percent = FALSE)
+mywts.xts <- merge(mywts.xts, mymacd)
+myhist <- mywts.xts[,4] - mywts.xts[,5]
+mywts.xts <- merge(mywts.xts, myhist)
+
+names(mywts.xts) <- c("Weight", "Slow", "Fast", "MACD", "Signal","Hist")
+rm(myhist,mymacd,mywts.df)
+
 mywts.xts<-window(mywts.xts, start = mystartdate)
 
+png(filename = 'output/wt_macd.png',width = 1600,height = 900,res = 150)
+plot.xts(mywts.xts$Weight,type = 'p',pch=16,col="blue",main=NA,cex=0.8,
+         ylim=c(min(mywts.xts[,c(1:3)],na.rm = TRUE)-1,max(mywts.xts[,c(1:3)],na.rm = TRUE)+1))
+lines(mywts.xts$Slow,on=0,col="green", lwd=2)
+lines(mywts.xts$Fast,on=0,col="black", lwd=2)
 
-png(filename = 'output/values.png',width = 1600,height = 900,res = 150)
-plot(mywts.xts, type='p', pch=16, main=NA, col="blue")
-lines(mywts.EMA12, col="black", lwd = 2)
-lines(mywts.EMA26, col="green", lwd = 2)
-dev.off()
-
-png(filename = 'output/macd.png',width = 1600,height = 900,res = 150)
-plot(mymacd[,c(1,2)],lwd=2,col=c('blue','red'), main=NA)
-lines(mymacd$hist,type='h', on=NA)
+lines(mywts.xts$MACD,on=NA,col="blue", lwd=2,
+      ylim=c(min(mywts.xts[,c(4:6)],na.rm = TRUE)-1,max(mywts.xts[,c(4:6)],na.rm = TRUE)+1))
+lines(mywts.xts$Signal,on=0,col="red", lwd=2)
+lines(mywts.xts$Hist,on=0,col="black",type="h")
 dev.off()
