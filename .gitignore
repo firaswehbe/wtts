@@ -3,6 +3,7 @@
 .RData
 .Ruserdata
 *.Rproj
+.DS_Store
 
 input/*.csv
 input/*.json
