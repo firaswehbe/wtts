@@ -35,5 +35,5 @@ lines(mywts.xts$Fast,on=0,col="black", lwd=2)
 lines(mywts.xts$MACD,on=NA,col="blue", lwd=2,
       ylim=c(min(mywts.xts[,c(4:6)],na.rm = TRUE)-1,max(mywts.xts[,c(4:6)],na.rm = TRUE)+1))
 lines(mywts.xts$Signal,on=0,col="red", lwd=2)
-lines(mywts.xts$Hist,on=0,col="black",type="h")
+print(lines(mywts.xts$Hist,on=0,col="black",type="h")) #Need print for lattice graphics to print when sourced
 dev.off()
