@@ -10,8 +10,8 @@ source('read_weights.R')
 source('make_ts.R')
 
 # You can modify this
-mystartdate = as.POSIXct(Sys.Date() - 365)
-mystartdate = as.POSIXct('2018-10-01')
+#mystartdate = as.POSIXct(Sys.Date() - 365)
+mystartdate = as.POSIXct('2019-10-01')
 
 # Calculate then cut the window
 mywts.xts <- merge(mywts.xts, EMA(mywts.xts$Weight, n = 90))
@@ -28,7 +28,7 @@ mywts.xts<-window(mywts.xts, start = mystartdate)
 
 png(filename = 'output/wt_macd.png',width = 1600,height = 900,res = 150)
 plot.xts(mywts.xts$Weight,type = 'p',pch=16,col="blue",main=NA,cex=0.8,
-         ylim=c(min(mywts.xts[,c(1:3)],na.rm = TRUE)-1,max(mywts.xts[,c(1:3)],na.rm = TRUE)+1))
+         ylim=c(min(mywts.xts[,c(1:3)],na.rm = TRUE)-2,max(mywts.xts[,c(1:3)],na.rm = TRUE)+2))
 lines(mywts.xts$Slow,on=0,col="green", lwd=2)
 lines(mywts.xts$Fast,on=0,col="black", lwd=2)
 
