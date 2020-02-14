@@ -14,9 +14,9 @@ source('make_ts.R')
 mystartdate = as.POSIXct('2019-10-01')
 
 # Calculate then cut the window
-mywts.xts <- merge(mywts.xts, EMA(mywts.xts$Weight, n = 90))
+mywts.xts <- merge(mywts.xts, EMA(mywts.xts$Weight, n = 56))
 mywts.xts <- merge(mywts.xts, EMA(mywts.xts$Weight, n = 21))
-mymacd <- MACD(mywts.xts$Weight, nFast = 21, nSlow = 90, nSig = 14, percent = FALSE)
+mymacd <- MACD(mywts.xts$Weight, nFast = 21, nSlow = 56, nSig = 14, percent = FALSE)
 mywts.xts <- merge(mywts.xts, mymacd)
 myhist <- mywts.xts[,4] - mywts.xts[,5]
 mywts.xts <- merge(mywts.xts, myhist)
