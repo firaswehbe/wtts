@@ -20,8 +20,10 @@ mymacd <- MACD(mywts.xts$Weight, nFast = 21, nSlow = 56, nSig = 14, percent = FA
 mywts.xts <- merge(mywts.xts, mymacd)
 myhist <- mywts.xts[,4] - mywts.xts[,5]
 mywts.xts <- merge(mywts.xts, myhist)
+mywts.xts <- merge(mywts.xts, SMA(mywts.xts$Weight, n = 7))
 
-names(mywts.xts) <- c("Weight", "Slow", "Fast", "MACD", "Signal","Hist")
+
+names(mywts.xts) <- c("Weight", "Slow", "Fast", "MACD", "Signal","Hist", "SevenDay")
 rm(myhist,mymacd,mywts.df)
 
 mywts.xts<-window(mywts.xts, start = mystartdate)
@@ -36,5 +38,12 @@ lines(mywts.xts$MACD,on=NA,col="blue", lwd=2,
       ylim=c(min(mywts.xts[,c(4:6)],na.rm = TRUE)-1,max(mywts.xts[,c(4:6)],na.rm = TRUE)+1))
 lines(mywts.xts$Signal,on=0,col="red", lwd=2)
 lines(mywts.xts$Hist,on=0,col="black",type="h")
+print(p) #Need print for lattice graphics to print when sourced
+dev.off()
+
+png(filename = 'output/wt_7day.png',width = 1600,height = 900,res = 150)
+p <- plot.xts(mywts.xts$Weight,type = 'p',pch=16,col="#B0B0B0",main=NA,cex=0.8,
+              ylim=c(245,305))
+lines(mywts.xts$SevenDay,on=0,col="#101010", lwd=4)
 print(p) #Need print for lattice graphics to print when sourced
 dev.off()
