@@ -29,14 +29,14 @@ rm(myhist,mymacd,mywts.df)
 mywts.xts<-window(mywts.xts, start = mystartdate)
 
 png(filename = 'output/wt_macd.png',width = 1600,height = 900,res = 150)
-p <- plot.xts(mywts.xts$Weight,type = 'p',pch=16,col="blue",main=NA,cex=0.7,
+p <- plot.xts(mywts.xts$Weight,type = 'p',pch=16,col="#B0B0B0",main=NA,cex=0.7,
          ylim=c(min(mywts.xts[,c(1:3)],na.rm = TRUE)-2,max(mywts.xts[,c(1:3)],na.rm = TRUE)+2))
-lines(mywts.xts$Slow,on=0,col="green", lwd=2)
-lines(mywts.xts$Fast,on=0,col="black", lwd=2)
+lines(mywts.xts$Slow,on=0,col="forest green", lwd=4)
+lines(mywts.xts$Fast,on=0,col="black", lwd=4)
 
 lines(mywts.xts$MACD,on=NA,col="blue", lwd=2,
       ylim=c(min(mywts.xts[,c(4:6)],na.rm = TRUE)-1,max(mywts.xts[,c(4:6)],na.rm = TRUE)+1))
-lines(mywts.xts$Signal,on=0,col="red", lwd=2)
+lines(mywts.xts$Signal,on=0,col="dark red", lwd=2)
 lines(mywts.xts$Hist,on=0,col="black",type="h")
 print(p) #Need print for lattice graphics to print when sourced
 dev.off()
