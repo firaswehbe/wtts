@@ -8,6 +8,7 @@
 input/*.csv
 input/*.json
 input/*.xml
+input/*.pdf
 
 output/*.csv
 output/*.png
