@@ -45,5 +45,9 @@ png(filename = 'output/wt_7day.png',width = 1600,height = 900,res = 150)
 p <- plot.xts(mywts.xts$Weight,type = 'p',pch=16,col="#B0B0B0",main=NA,cex=0.8,
               ylim=c(245,325))
 lines(mywts.xts$SevenDay,on=0,col="#101010", lwd=4)
+addEventLines(
+  xts(
+    'New Year', 
+    as.POSIXct('2022-01-01' )), lwd=2, lty=2, col="black")
 print(p) #Need print for lattice graphics to print when sourced
 dev.off()
