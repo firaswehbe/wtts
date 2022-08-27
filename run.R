@@ -47,7 +47,8 @@ p <- plot.xts(mywts.xts$Weight,type = 'p',pch=16,col="#B0B0B0",main=NA,cex=0.8,
 lines(mywts.xts$SevenDay,on=0,col="#101010", lwd=4)
 addEventLines(
   xts(
-    'New Year', 
-    as.POSIXct('2022-01-01' )), lwd=2, lty=2, col="black")
+    c('A', 'B', 'C', 'D', 'E', 'Pel','PoomA'), 
+    as.POSIXct( c('2022-01-01', '2022-02-12', '2022-03-15', '2022-04-17', '2022-05-21', '2022-06-16','2022-08-06') )), 
+  lwd=2, lty=2, col="black",srt=90,adj=c(1,-0.2) )
 print(p) #Need print for lattice graphics to print when sourced
 dev.off()
